@@ -18,6 +18,13 @@
             android:textAlignment="center"
             android:textSize="28sp" />
 
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/image"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop"
+            android:layout_marginBottom="8dp"/>
+
         <TextView
             android:id="@+id/readyInMinutes"
             android:layout_width="match_parent"
@@ -69,6 +76,7 @@
             android:id="@+id/instructions"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="150dp"
             android:text="Instructions"
             android:textAlignment="center"
             android:textSize="18sp" />

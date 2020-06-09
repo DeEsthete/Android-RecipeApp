@@ -1,5 +1,7 @@
 package com.evgeniy.recipesapp.ui;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -9,10 +11,14 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.evgeniy.recipesapp.R;
 import com.evgeniy.recipesapp.dto.Recipe;
+import com.evgeniy.recipesapp.helper.DownloadImageTask;
+
+import java.net.URL;
 
 public class RecipeInformationFragment extends Fragment {
     private static final String ARG_RECIPE = "recipe";
@@ -42,7 +48,8 @@ public class RecipeInformationFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_recipe_information, container, false);
-
+        new DownloadImageTask((ImageView) root.findViewById(R.id.image))
+                .execute("https://spoonacular.com/recipeImages/" + recipe.getImage());
         ((TextView) root.findViewById(R.id.title)).setText(recipe.getTitle());
         ((TextView) root.findViewById(R.id.readyInMinutes)).setText("Ready in minutes: " + recipe.getReadyInMinutes());
         ((TextView) root.findViewById(R.id.aggregateLikes)).setText("Likes: " + recipe.getAggregateLikes());
