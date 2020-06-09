@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -13,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.evgeniy.recipesapp.R;
 import com.evgeniy.recipesapp.dto.RecipeMini;
-import com.google.android.material.button.MaterialButton;
 
 import java.net.URL;
 import java.util.List;
@@ -39,21 +39,27 @@ public class RecipesMiniAdapter extends RecyclerView.Adapter<RecipesMiniAdapter.
     @Override
     public void onBindViewHolder(RecipesMiniAdapter.ViewHolder holder, int position) {
         final RecipeMini[] recipe = {recipes.get(position)};
+        final RecipesMiniAdapter.ViewHolder finalHolder = holder;
 
-        URL url;
-        Bitmap bmp = null;
-        try {
-            url = new URL("https://spoonacular.com/recipeImages/" + recipe[0].getImage());
-            bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        holder.imageView.setImageBitmap(bmp);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                URL url;
+                Bitmap bmp;
+                try {
+                    url = new URL("https://spoonacular.com/recipeImages/" + recipe[0].getImage());
+                    bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+                    finalHolder.imageView.setImageBitmap(bmp);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
 
-        holder.recipeId.setText(recipe[0].getId());
         holder.titleView.setText(recipe[0].getTitle());
-        holder.remainingInMinutes.setText("Ready in minutes: " + recipe[0].getReadyInMinutes());
         holder.showMore.setOnClickListener(showMoreListener);
+        holder.remainingInMinutes.setText("Ready in minutes: " + recipe[0].getReadyInMinutes());
+        holder.recipeId.setText(Integer.toString(recipe[0].getId()));
     }
 
     @Override
@@ -64,7 +70,7 @@ public class RecipesMiniAdapter extends RecyclerView.Adapter<RecipesMiniAdapter.
     public class ViewHolder extends RecyclerView.ViewHolder {
         final ImageView imageView;
         final TextView titleView, remainingInMinutes, recipeId;
-        final MaterialButton showMore;
+        final Button showMore;
 
         ViewHolder(View view) {
             super(view);

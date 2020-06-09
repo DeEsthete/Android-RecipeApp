@@ -26,7 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="-1"
-            tools:visibility="gone" />
+            android:textSize="0sp"/>
 
         <TextView
             android:id="@+id/title"
@@ -36,12 +36,12 @@
             android:textSize="24sp"/>
 
         <TextView
-            android:id="@+id/company"
+            android:id="@+id/readyInMinutes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Ready in minutes: " />
 
-        <com.google.android.material.button.MaterialButton
+        <Button
             android:id="@+id/showMore"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
