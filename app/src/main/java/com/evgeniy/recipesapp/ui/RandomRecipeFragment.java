@@ -11,9 +11,9 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.evgeniy.recipesapp.R;
-import com.evgeniy.recipesapp.api.SpoonalcularApi;
-import com.evgeniy.recipesapp.pojo.RandomResult;
-import com.evgeniy.recipesapp.pojo.Recipe;
+import com.evgeniy.recipesapp.data.SpoonalcularApi;
+import com.evgeniy.recipesapp.dto.RandomResult;
+import com.evgeniy.recipesapp.dto.Recipe;
 
 import retrofit2.Call;
 import retrofit2.Callback;

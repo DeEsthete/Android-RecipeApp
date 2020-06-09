@@ -9,30 +9,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.evgeniy.recipesapp.R;
-import com.evgeniy.recipesapp.api.SpoonalcularApi;
-import com.evgeniy.recipesapp.pojo.RandomResult;
-import com.evgeniy.recipesapp.pojo.Recipe;
-import com.evgeniy.recipesapp.pojo.RecipeMini;
-import com.evgeniy.recipesapp.ui.RecipeInformationFragment;
+import com.evgeniy.recipesapp.dto.RecipeMini;
 import com.google.android.material.button.MaterialButton;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RecipesMiniAdapter extends RecyclerView.Adapter<RecipesMiniAdapter.ViewHolder> {
 

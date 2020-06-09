@@ -16,10 +16,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.evgeniy.recipesapp.R;
 import com.evgeniy.recipesapp.adapter.RecipesMiniAdapter;
-import com.evgeniy.recipesapp.api.SpoonalcularApi;
-import com.evgeniy.recipesapp.pojo.Recipe;
-import com.evgeniy.recipesapp.pojo.RecipeMini;
-import com.evgeniy.recipesapp.pojo.SearchResult;
+import com.evgeniy.recipesapp.data.SpoonalcularApi;
+import com.evgeniy.recipesapp.dto.Recipe;
+import com.evgeniy.recipesapp.dto.RecipeMini;
+import com.evgeniy.recipesapp.dto.SearchResult;
 
 import java.util.ArrayList;
 import java.util.List;

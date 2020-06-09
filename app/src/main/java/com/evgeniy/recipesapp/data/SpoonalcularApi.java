@@ -1,10 +1,8 @@
-package com.evgeniy.recipesapp.api;
+package com.evgeniy.recipesapp.data;
 
-import com.evgeniy.recipesapp.pojo.RandomResult;
-import com.evgeniy.recipesapp.pojo.Recipe;
-import com.evgeniy.recipesapp.pojo.SearchResult;
-
-import java.util.List;
+import com.evgeniy.recipesapp.dto.RandomResult;
+import com.evgeniy.recipesapp.dto.Recipe;
+import com.evgeniy.recipesapp.dto.SearchResult;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

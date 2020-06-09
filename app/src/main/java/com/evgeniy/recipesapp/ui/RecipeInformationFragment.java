@@ -9,11 +9,10 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.evgeniy.recipesapp.R;
-import com.evgeniy.recipesapp.pojo.Recipe;
+import com.evgeniy.recipesapp.dto.Recipe;
 
 public class RecipeInformationFragment extends Fragment {
     private static final String ARG_RECIPE = "recipe";

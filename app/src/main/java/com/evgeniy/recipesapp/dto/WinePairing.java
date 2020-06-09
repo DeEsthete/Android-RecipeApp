@@ -1,4 +1,4 @@
-package com.evgeniy.recipesapp.pojo;
+package com.evgeniy.recipesapp.dto;
 
 import java.util.ArrayList;
 
