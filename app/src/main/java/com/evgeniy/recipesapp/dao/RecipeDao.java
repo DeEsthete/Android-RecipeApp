@@ -14,7 +14,7 @@ import io.reactivex.Flowable;
 @Dao
 public interface RecipeDao {
     @Query("SELECT * FROM recipeentity")
-    Flowable<List<RecipeEntity>> getAll();
+    List<RecipeEntity> getAll();
 
     @Query("SELECT * FROM recipeentity WHERE id IN (:recipeIds)")
     List<RecipeEntity> loadAllByIds(int[] recipeIds);

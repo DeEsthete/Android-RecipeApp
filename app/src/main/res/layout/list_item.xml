@@ -37,22 +37,11 @@
             android:layout_height="wrap_content"
             android:text="Ready in minutes: " />
 
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_height="wrap_content"
+        <Button
+            android:id="@+id/showMore"
             android:layout_width="wrap_content"
-            android:orientation="horizontal">
-            <Button
-                android:id="@+id/showMore"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Show more"/>
-
-            <Button
-                android:id="@+id/addLibrary"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Add to library" />
-        </androidx.appcompat.widget.LinearLayoutCompat>
+            android:layout_height="wrap_content"
+            android:text="Show more"/>
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,23 +6,29 @@ import android.os.Build;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.room.Room;
 
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.evgeniy.recipesapp.R;
+import com.evgeniy.recipesapp.data.LocalDatabase;
 import com.evgeniy.recipesapp.dto.Recipe;
+import com.evgeniy.recipesapp.entity.RecipeEntity;
 import com.evgeniy.recipesapp.helper.DownloadImageTask;
+import com.evgeniy.recipesapp.utils.GlobalConstants;
 
 import java.net.URL;
 
 public class RecipeInformationFragment extends Fragment {
     private static final String ARG_RECIPE = "recipe";
 
+    private LocalDatabase db;
     private Recipe recipe;
 
     public RecipeInformationFragment() {
@@ -41,6 +47,8 @@ public class RecipeInformationFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             recipe = (Recipe) getArguments().getSerializable(ARG_RECIPE);
+            db = Room.databaseBuilder(this.requireContext(),
+                    LocalDatabase.class, GlobalConstants.LOCAL_DB_NAME).build();
         }
     }
 
@@ -48,6 +56,19 @@ public class RecipeInformationFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_recipe_information, container, false);
+
+        root.findViewById(R.id.addToLibrary).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        db.recipeDao().insertAll(new RecipeEntity(recipe));
+                    }
+                }).start();
+            }
+        });
+
         new DownloadImageTask((ImageView) root.findViewById(R.id.image))
                 .execute("https://spoonacular.com/recipeImages/" + recipe.getImage());
         ((TextView) root.findViewById(R.id.title)).setText(recipe.getTitle());

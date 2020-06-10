@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import com.evgeniy.recipesapp.dto.Recipe;
 import com.evgeniy.recipesapp.dto.RecipeMini;
 
 import java.util.List;
@@ -20,6 +21,17 @@ public class RecipeEntity {
     private int servings;
     @ColumnInfo(name = "title")
     private String title;
+
+    public RecipeEntity() {
+    }
+
+    public RecipeEntity(Recipe recipe) {
+        setId((int) recipe.getId());
+        setImage(recipe.getImage());
+        setReadyInMinutes((int) recipe.getReadyInMinutes());
+        setServings((int) recipe.getServings());
+        setTitle(recipe.getTitle());
+    }
 
     public RecipeMini mapToRecipeMini() {
         RecipeMini result = new RecipeMini();

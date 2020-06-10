@@ -10,7 +10,7 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface SpoonalcularApi {
-    final String API_KEY = "83190b0157044459a26eb7e4c09f2d72";
+    String API_KEY = "83190b0157044459a26eb7e4c09f2d72";
 
     @GET("recipes/random?apiKey=" + API_KEY)
     Call<RandomResult> randomRecipes(@Query("number") int number);

@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
+import com.evgeniy.recipesapp.MainActivity;
 import com.evgeniy.recipesapp.R;
 import com.evgeniy.recipesapp.adapter.RecipesMiniAdapter;
 import com.evgeniy.recipesapp.data.LocalDatabase;
@@ -21,6 +22,7 @@ import com.evgeniy.recipesapp.delegates.ShowRecipeDelegate;
 import com.evgeniy.recipesapp.dto.Recipe;
 import com.evgeniy.recipesapp.dto.RecipeMini;
 import com.evgeniy.recipesapp.entity.RecipeEntity;
+import com.evgeniy.recipesapp.helper.FillMyLibraryTask;
 import com.evgeniy.recipesapp.utils.GlobalConstants;
 
 import org.reactivestreams.Subscriber;
@@ -28,8 +30,13 @@ import org.reactivestreams.Subscription;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
 
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
+import io.reactivex.subjects.AsyncSubject;
+import io.reactivex.subjects.Subject;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -38,12 +45,14 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MyLibraryFragment extends Fragment {
 
+    private View root;
     private SpoonalcularApi spoonalcularApi;
     private LocalDatabase db;
+    private List<RecipeMini> recipes;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_my_library, container, false);
+        root = inflater.inflate(R.layout.fragment_my_library, container, false);
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://api.spoonacular.com/")
@@ -53,29 +62,7 @@ public class MyLibraryFragment extends Fragment {
 
         db = Room.databaseBuilder(this.requireContext(),
                 LocalDatabase.class, GlobalConstants.LOCAL_DB_NAME).build();
-
-        final List<RecipeMini> recipes = new ArrayList<>();
-
-        db.recipeDao().getAll().observeOn(Schedulers.computation()).subscribe(new Subscriber<List<RecipeEntity>>() {
-            @Override
-            public void onNext(List<RecipeEntity> recipeEntities) {
-                for (RecipeEntity recipe : recipeEntities) {
-                    recipes.add(recipe.mapToRecipeMini());
-                }
-            }
-
-            @Override
-            public void onSubscribe(Subscription s) {}
-            @Override
-            public void onError(Throwable t) {}
-            @Override
-            public void onComplete() {}
-        });
-
-        RecyclerView recyclerView = root.findViewById(R.id.list);
-        RecipesMiniAdapter adapter = new RecipesMiniAdapter(root.getContext(), recipes, showMoreClick());
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
-        recyclerView.setAdapter(adapter);
+        new FillMyLibraryTask(db, (RecyclerView) root.findViewById(R.id.list), root, getContext(), showMoreClick()).execute();
 
         return root;
     }
