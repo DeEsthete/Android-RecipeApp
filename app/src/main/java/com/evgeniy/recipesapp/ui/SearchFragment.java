@@ -12,11 +12,13 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.evgeniy.recipesapp.R;
 import com.evgeniy.recipesapp.adapter.RecipesMiniAdapter;
 import com.evgeniy.recipesapp.data.SpoonalcularApi;
+import com.evgeniy.recipesapp.delegates.ShowRecipeDelegate;
 import com.evgeniy.recipesapp.dto.Recipe;
 import com.evgeniy.recipesapp.dto.RecipeMini;
 import com.evgeniy.recipesapp.dto.SearchResult;
@@ -71,6 +73,7 @@ public class SearchFragment extends Fragment {
                 recipes.addAll(result.getResults());
                 RecyclerView recyclerView = root.findViewById(R.id.list);
                 RecipesMiniAdapter adapter = new RecipesMiniAdapter(root.getContext(), recipes, showMoreClick());
+                recyclerView.setLayoutManager( new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
                 recyclerView.setAdapter(adapter);
             }
 
@@ -81,11 +84,10 @@ public class SearchFragment extends Fragment {
         });
     }
 
-    private View.OnClickListener showMoreClick() {
-        return new View.OnClickListener() {
+    private ShowRecipeDelegate showMoreClick() {
+        return new ShowRecipeDelegate() {
             @Override
-            public void onClick(View v) {
-                int recipeId = Integer.parseInt(((TextView) v.findViewById(R.id.recipeId)).getText().toString());
+            public void showRecipe(int recipeId) {
                 final Call<Recipe> recipeQuery = spoonalcularApi.getRecipeInformation(recipeId);
                 recipeQuery.enqueue(new Callback<Recipe>() {
                     @Override
@@ -95,7 +97,7 @@ public class SearchFragment extends Fragment {
                         FragmentManager fragmentManager = getFragmentManager();
                         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                         Fragment fraggy = RecipeInformationFragment.newInstance(recipeInformation);
-                        fragmentTransaction.add(R.id.fragment, fraggy);
+                        fragmentTransaction.add(R.id.nav_host_fragment, fraggy);
                         fragmentTransaction.commit();
                     }
 

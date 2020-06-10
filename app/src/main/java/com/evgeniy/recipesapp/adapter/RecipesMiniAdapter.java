@@ -13,6 +13,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.evgeniy.recipesapp.R;
+import com.evgeniy.recipesapp.delegates.ShowRecipeDelegate;
 import com.evgeniy.recipesapp.dto.RecipeMini;
 import com.evgeniy.recipesapp.helper.DownloadImageTask;
 
@@ -23,12 +24,12 @@ public class RecipesMiniAdapter extends RecyclerView.Adapter<RecipesMiniAdapter.
 
     private LayoutInflater inflater;
     private List<RecipeMini> recipes;
-    private View.OnClickListener showMoreListener;
+    private ShowRecipeDelegate showRecipeDelegate;
 
-    public RecipesMiniAdapter(Context context, List<RecipeMini> recipes, View.OnClickListener showMoreListener) {
+    public RecipesMiniAdapter(Context context, List<RecipeMini> recipes, ShowRecipeDelegate showRecipeDelegate) {
         this.recipes = recipes;
         this.inflater = LayoutInflater.from(context);
-        this.showMoreListener = showMoreListener;
+        this.showRecipeDelegate = showRecipeDelegate;
     }
 
     @Override
@@ -41,10 +42,16 @@ public class RecipesMiniAdapter extends RecyclerView.Adapter<RecipesMiniAdapter.
     public void onBindViewHolder(RecipesMiniAdapter.ViewHolder holder, int position) {
         final RecipeMini[] recipe = {recipes.get(position)};
         new DownloadImageTask(holder.imageView).execute("https://spoonacular.com/recipeImages/" + recipe[0].getImage());
+
         holder.titleView.setText(recipe[0].getTitle());
-        holder.showMore.setOnClickListener(showMoreListener);
         holder.remainingInMinutes.setText("Ready in minutes: " + recipe[0].getReadyInMinutes());
-        holder.recipeId.setText(Integer.toString(recipe[0].getId()));
+
+        holder.showMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showRecipeDelegate.showRecipe(recipe[0].getId());
+            }
+        });
     }
 
     @Override
@@ -54,13 +61,12 @@ public class RecipesMiniAdapter extends RecyclerView.Adapter<RecipesMiniAdapter.
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         final ImageView imageView;
-        final TextView titleView, remainingInMinutes, recipeId;
+        final TextView titleView, remainingInMinutes;
         final Button showMore;
 
         ViewHolder(View view) {
             super(view);
             imageView = view.findViewById(R.id.image);
-            recipeId = view.findViewById(R.id.recipeId);
             titleView = view.findViewById(R.id.title);
             remainingInMinutes = view.findViewById(R.id.readyInMinutes);
             showMore = view.findViewById(R.id.showMore);
