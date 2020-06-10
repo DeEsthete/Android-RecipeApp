@@ -28,7 +28,12 @@ public class RandomRecipeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_random_recipe, container, false);
-        getRecipe();
+        root.findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getRecipe();
+            }
+        });
         return root;
     }
 
@@ -42,14 +47,19 @@ public class RandomRecipeFragment extends Fragment {
         recipes.enqueue(new Callback<RandomResult>() {
             @Override
             public void onResponse(Call<RandomResult> call, Response<RandomResult> response) {
-                assert response.body() != null;
-                recipe = response.body().getRecipes().get(0);
-                FragmentManager fragmentManager = getFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                Fragment fraggy = RecipeInformationFragment.newInstance(recipe);
-                fragmentTransaction.add(R.id.fragment, fraggy);
-                fragmentTransaction.commit();
+                try {
+                    assert response.body() != null;
+                    recipe = response.body().getRecipes().get(0);
+                    FragmentManager fragmentManager = getFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    Fragment fraggy = RecipeInformationFragment.newInstance(recipe);
+                    fragmentTransaction.add(R.id.fragment, fraggy);
+                    fragmentTransaction.commit();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
             }
+
             @Override
             public void onFailure(Call<RandomResult> call, Throwable t) {
 
