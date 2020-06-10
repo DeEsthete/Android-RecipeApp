@@ -41,7 +41,7 @@ public class RecipesMiniAdapter extends RecyclerView.Adapter<RecipesMiniAdapter.
     @Override
     public void onBindViewHolder(RecipesMiniAdapter.ViewHolder holder, int position) {
         final RecipeMini[] recipe = {recipes.get(position)};
-        new DownloadImageTask(holder.imageView).execute("https://spoonacular.com/recipeImages/" + recipe[0].getImage());
+        new DownloadImageTask(holder.imageView).execute(!recipe[0].getImage().contains("https") ? "https://spoonacular.com/recipeImages/" + recipe[0].getImage() : recipe[0].getImage());
 
         holder.titleView.setText(recipe[0].getTitle());
         holder.remainingInMinutes.setText("Ready in minutes: " + recipe[0].getReadyInMinutes());
