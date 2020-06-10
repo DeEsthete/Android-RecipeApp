@@ -21,6 +21,7 @@ import com.evgeniy.recipesapp.delegates.ShowRecipeDelegate;
 import com.evgeniy.recipesapp.dto.Recipe;
 import com.evgeniy.recipesapp.dto.RecipeMini;
 import com.evgeniy.recipesapp.entity.RecipeEntity;
+import com.evgeniy.recipesapp.utils.GlobalConstants;
 
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
@@ -51,7 +52,7 @@ public class MyLibraryFragment extends Fragment {
         spoonalcularApi = retrofit.create(SpoonalcularApi.class);
 
         db = Room.databaseBuilder(this.requireContext(),
-                LocalDatabase.class, "local_recipes_db").build();
+                LocalDatabase.class, GlobalConstants.LOCAL_DB_NAME).build();
 
         final List<RecipeMini> recipes = new ArrayList<>();
 
