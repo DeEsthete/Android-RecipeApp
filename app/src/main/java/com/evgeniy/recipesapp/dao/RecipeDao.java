@@ -9,10 +9,12 @@ import com.evgeniy.recipesapp.entity.RecipeEntity;
 
 import java.util.List;
 
+import io.reactivex.Flowable;
+
 @Dao
 public interface RecipeDao {
     @Query("SELECT * FROM recipeentity")
-    List<RecipeEntity> getAll();
+    Flowable<List<RecipeEntity>> getAll();
 
     @Query("SELECT * FROM recipeentity WHERE id IN (:recipeIds)")
     List<RecipeEntity> loadAllByIds(int[] recipeIds);
