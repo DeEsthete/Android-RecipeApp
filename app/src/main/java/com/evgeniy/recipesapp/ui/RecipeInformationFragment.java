@@ -1,13 +1,18 @@
 package com.evgeniy.recipesapp.ui;
 
+import android.app.Activity;
+import android.bluetooth.BluetoothClass;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.room.Room;
 
+import android.os.Looper;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +21,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.evgeniy.recipesapp.MainActivity;
 import com.evgeniy.recipesapp.R;
 import com.evgeniy.recipesapp.data.LocalDatabase;
 import com.evgeniy.recipesapp.dto.Recipe;
@@ -63,7 +69,19 @@ public class RecipeInformationFragment extends Fragment {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        db.recipeDao().insertAll(new RecipeEntity(recipe));
+                        int[] recipeId = {(int) recipe.getId()};
+                        if (db.recipeDao().loadAllByIds(recipeId).isEmpty()) {
+                            db.recipeDao().insertAll(new RecipeEntity(recipe));
+                        } else {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                            builder.setMessage("Recipe already exist")
+                                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                        }
+                                    });
+                            Looper.prepare();
+                            builder.create().show();
+                        }
                     }
                 }).start();
             }
