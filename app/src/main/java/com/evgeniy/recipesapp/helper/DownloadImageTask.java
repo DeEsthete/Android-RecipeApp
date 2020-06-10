@@ -29,6 +29,7 @@ public class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
     }
 
     protected void onPostExecute(Bitmap result) {
+        bmImage.setImageAlpha(1000);
         bmImage.setImageBitmap(result);
     }
 }
