@@ -88,7 +88,7 @@ public class RecipeInformationFragment extends Fragment {
         });
 
         new DownloadImageTask((ImageView) root.findViewById(R.id.image))
-                .execute("https://spoonacular.com/recipeImages/" + recipe.getImage());
+                .execute(recipe.getImage());
         ((TextView) root.findViewById(R.id.title)).setText(recipe.getTitle());
         ((TextView) root.findViewById(R.id.readyInMinutes)).setText("Ready in minutes: " + recipe.getReadyInMinutes());
         ((TextView) root.findViewById(R.id.aggregateLikes)).setText("Likes: " + recipe.getAggregateLikes());
